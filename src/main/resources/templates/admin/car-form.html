@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Форма автомобил</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4" th:text="${title}"></h2>
+
+
+    <form th:action="@{/admin/cars/save}" th:object="${car}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+            <label class="form-label">Марка</label>
+            <input type="text" class="form-control" th:field="*{brand}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Модел</label>
+            <input type="text" class="form-control" th:field="*{model}" required>
+        </div>
+
+            <div class="mb-3">
+            <label class="form-label">Година</label>
+            <input type="number" class="form-control" th:field="*{year}" required>
+        </div>
+
+            <div class="mb-3">
+                <label class="form-label">Гориво</label>
+                <select class="form-select" th:field="*{fuelType}" required>
+                    <option value="Бензин">Бензин</option>
+                    <option value="Дизел">Дизел</option>
+                    <option value="Газ">Газ</option>
+                    <option value="Хибрид">Хибрид</option>
+                    <option value="Електрически">Електрически</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+            <label class="form-label">Цена на ден (EUR)</label>
+            <input type="number" class="form-control" th:field="*{pricePerDay}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">URL на снимка</label>
+            <input type="text" class="form-control" th:field="*{imageUrl}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Наличност</label>
+            <select class="form-select" th:field="*{available}">
+                <option th:value="true">Наличен</option>
+                <option th:value="false">Нает</option>
+            </select>
+        </div>
+
+            <button class="btn btn-primary">
+                <i class="fas fa-save"></i> Запази
+            </button>
+        <a href="/admin/cars" class="btn btn-secondary">Назад</a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

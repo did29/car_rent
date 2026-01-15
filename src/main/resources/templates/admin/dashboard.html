@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Администраторски панел</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/admin/dashboard">Администраторски панел</a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/cars">Автомобили</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/users">Потребители</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Изход</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Администраторски панел</h2>
+
+    <div class="row g-4">
+
+        <!-- Общо автомобили -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-car fa-3x text-primary mb-2"></i>
+                <h4 th:text="${totalCars}">0</h4>
+                <p>Общо автомобили</p>
+            </div>
+        </div>
+
+        <!-- Налични автомобили -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
+                <h4 th:text="${availableCars}">0</h4>
+                <p>Налични автомобили</p>
+            </div>
+        </div>
+
+        <!-- Наети автомобили -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-key fa-3x text-warning mb-2"></i>
+                <h4 th:text="${rentedCars}">0</h4>
+                <p>Наети автомобили</p>
+            </div>
+        </div>
+
+        <!-- Потребители -->
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-users fa-3x text-info mb-2"></i>
+                <h4 th:text="${totalUsers}">0</h4>
+                <p>Потребители</p>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="/admin/cars" class="btn btn-primary w-100 p-3">
+                <i class="fas fa-car-side"></i> Управление на автомобили
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/users" class="btn btn-secondary w-100 p-3">
+                <i class="fas fa-users-cog"></i> Управление на потребители
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

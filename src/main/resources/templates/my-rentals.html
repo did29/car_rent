@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Моите наеми</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .car-card img {
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .car-card {
+            transition: transform .2s;
+        }
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<!-- Навигация -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">CarRent</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Начало</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/cars">Автомобили</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">За нас</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Контакти</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/my-rentals">Моите наеми</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login">Вход</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/logout">Изход</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+
+    <h2 class="text-center mb-4">Моите наеми</h2>
+
+    <!-- Съобщения -->
+    <div th:if="${message}" class="alert text-center"
+         th:classappend="${messageType == 'success'} ? 'alert-success' : 'alert-danger'"
+         th:text="${message}">
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Ако няма наети коли -->
+        <div th:if="${#lists.isEmpty(cars)}" class="text-center text-muted">
+            <i class="fas fa-info-circle fa-2x mb-3"></i>
+            <p>Нямате активни наеми.</p>
+            <a href="/cars" class="btn btn-primary">Разгледай автомобили</a>
+        </div>
+
+        <!-- Списък с наети коли -->
+        <div class="col-md-4" th:each="car : ${cars}">
+            <div class="card car-card shadow-sm p-2">
+
+                <img th:src="@{${car.imageUrl}}" class="card-img-top">
+
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${car.brand + ' ' + car.model}"></h5>
+
+                    <p class="card-text">
+                        Година: <span th:text="${car.year}"></span><br>
+                        Гориво: <span th:text="${car.fuelType}"></span><br>
+                        Цена на ден: <span th:text="${car.pricePerDay}"></span> EUR<br>
+                        Статус:
+                        <span class="badge bg-danger" th:if="${!car.available}">Нает</span>
+                        <span class="badge bg-success" th:if="${car.available}">Наличен</span>
+                    </p>
+
+                    <!-- Бутон Върни колата -->
+                    <form th:action="@{/cars/return/{id}(id=${car.id})}" method="post">
+                        <button class="btn btn-warning w-100">Върни колата</button>
+                    </form>
+
+
+                    <!-- Ако вече е върната -->
+                    <button th:if="${car.available}" class="btn btn-secondary w-100" disabled>
+                        <i class="fas fa-check"></i> Върната
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <p class="mb-0">© 2026 CarRent — Всички права запазени</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
